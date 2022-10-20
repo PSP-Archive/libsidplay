@@ -1,0 +1,33 @@
+PSPSDK=$(shell psp-config --pspsdk-path)
+PSPDIR=$(shell psp-config --psp-prefix)
+TARGET_LIB = libsidplay.a
+OBJS =src/6510_.o \
+	  src/6581_.o \
+	  src/eeconfig.o \
+	  src/envelope.o \
+	  src/fformat_.o \
+	  src/info_.o \
+	  src/mixing.o \
+	  src/mus_.o \
+	  src/player.o \
+	  src/pp_.o \
+	  src/psid_.o \
+	  src/samples.o \
+	  src/sid_.o \
+	  src/sidtune.o 
+
+
+
+CFLAGS = -O2 -G0
+CXXFLAGS = $(CFLAGS) -fno-rtti
+
+include $(PSPSDK)/lib/build.mak
+
+install: $(TARGET_LIB)
+	@echo "Installing libsidplay into $(PSPDIR)"
+	@mkdir -p $(PSPDIR)/include/sidplay $(PSPDIR)/lib
+	@cp src/*.h  $(PSPDIR)/include/sidplay
+	@cp libsidplay.a  $(PSPDIR)/lib
+	@echo "Done"
+
+
